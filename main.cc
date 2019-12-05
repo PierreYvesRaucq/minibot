@@ -19,11 +19,14 @@ int main()
     	printf("\t\t Try to respect the C-file interface when programming me because\n \t\t it will be the same in the robotic project (Q2) !\n");
 
 
+	CtrlStruct* structure = initialize_struct();
+	double tp = structure->theCtrlIn->tower_pos;
 	CAN *can;
 	can = new CAN(CAN_BR);
 	can->configure();
-	can->ctrl_led(1);
-	tetstststststst
+	can->ctrl_motor(1);
+	can->push_TowDC(10);
+	can->push_PropDC(tp,10);
 
 }
 
