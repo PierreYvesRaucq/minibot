@@ -23,6 +23,7 @@ int main()
 	can = new CAN(CAN_BR);
 	can->configure();
 	can->ctrl_led(1);
+	tetstststststst
 
 }
 
