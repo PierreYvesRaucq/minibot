@@ -3,6 +3,6 @@
 
 #include "CtrlStruct.h"
 
-void rotation (double theta);
+void rotation (double theta, CtrlStruct* str);
 
 #endif
