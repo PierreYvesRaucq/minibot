@@ -14,7 +14,7 @@ void rotation(double theta, CtrlStruct* struct)
       
       while((err_angle_gauche>0.02)||(err_angle_gauche<-0.02)||(err_angle_droite<-0.02)||(err_angle_droite>0.02))
       {
-            run_angle_controller(struct, err_, angle_comm_droite);
+            run_angle_controller(struct, err_angle_gauche, err_angle_droite);
             err_angle_gauche = struct->theUserStruct->err_langle;
             err_angle_droite = struct->theUserStruct->err_rangle;
       }
