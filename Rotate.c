@@ -4,13 +4,19 @@
 void rotation(double theta, CtrlStruct* struct)
 {      
       double r = 0.03;
-      double d = distance_entre_roues;
+      double d = 0.215;
       
-      double angle_gauche = struct->theCtrlIn->angle_gauche;
-      double angle_droit = struct->theCtrlIn->angle_droit;
+      double err_angle_gauche = -14*(d/(2*r))*theta;
+      double err_angle_droite = 14*(d/(2*r))*theta;
       
-      double angle_comm_gauche = angle_gauche - 14*(d/2r)*theta;
-      double angle_comm_droite = angle_droite + 14*(d/2r)*theta;
+      struct->theUserStruct->err_langle = err_angle_gauche;
+      struct->theUserStruct->err_rangle = err_angle_droite;
       
-      run_angle_controller(struct, angle_comm_gauche, angle_comm_droite);
+      while((err_angle_gauche>0.02)||(err_angle_gauche<-0.02)||(err_angle_droite<-0.02)||(err_angle_droite>0.02))
+      {
+            run_angle_controller(struct, err_, angle_comm_droite);
+            err_angle_gauche = struct->theUserStruct->err_langle;
+            err_angle_droite = struct->theUserStruct->err_rangle;
+      }
+      return;
 }
