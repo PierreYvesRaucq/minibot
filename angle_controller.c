@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "CtrlStruct.h"
+//#include "CtrlStruct.h"
 
-void run_angle_controller(CtrlStruct* struct, double err_angle_gauche, err_angle_droite){
+void run_angle_controller(CtrlStruct* str, double err_angle_gauche, err_angle_droite){
     double kangle=1;
 	  double ki=0.066;
     double kp=0.017;//0.025
@@ -12,14 +12,14 @@ void run_angle_controller(CtrlStruct* struct, double err_angle_gauche, err_angle
     double omega_ref_m_l = kangle*err_angle_gauche;
     double omega_ref_m_r = kangle*err_angle_droite;
 
-    double lspeed = struct->theCtrlIn->l_wheel_speed;
-    double rspeed = struct->theCtrlIn->r_wheel_speed;
+    double lspeed = str->theCtrlIn->l_wheel_speed;
+    double rspeed = str->theCtrlIn->r_wheel_speed;
     
     double omega_m_l = lspeed*14;
     double omega_m_r = rspeed*14;
 
-    double t = struct->theCtrlIn->t;
-    double t_prev = struct->theUserStruct->tprev;
+    double t = str->theCtrlIn->t;
+    double t_prev = str->theUserStruct->tprev;
 
     double period = t-t_prev;
     double err_l = omega_ref_m_l-omega_m_l;
@@ -31,8 +31,8 @@ void run_angle_controller(CtrlStruct* struct, double err_angle_gauche, err_angle
 	double rot_langle = lspeed*period*0.06/0.215;
 	double rot_rangle = rspeed*period*0.06/0.215;
 	
-	struct->theUserStruct->err_langle = struct->theUserStruct->err_langle - rot_langle;
-	struct->theUserStruct->err_rangle = struct->theUserStruct->err_rangle - rot-rangle;
+	str->theUserStruct->err_langle = str->theUserStruct->err_langle - rot_langle;
+	str->theUserStruct->err_rangle = str->theUserStruct->err_rangle - rot-rangle;
 
     if (integ_err_l>0.95*24)
         {integ_err_l = 0.95*24;}
@@ -72,8 +72,8 @@ void run_angle_controller(CtrlStruct* struct, double err_angle_gauche, err_angle
             {Comm_r = Vr*100/(0.95*24);}
     }
 
-        struct->theCtrlOut->wheel_commands[L_ID] = Comm_l;
-        struct->theCtrlOut->wheel_commands[R_ID] = Comm_r;
+        str->theCtrlOut->wheel_commands[L_ID] = Comm_l;
+        str->theCtrlOut->wheel_commands[R_ID] = Comm_r;
 
 	return;
 }
