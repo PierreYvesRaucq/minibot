@@ -2,21 +2,15 @@
 #include <stdlib.h>
 #include "CtrlStruct.h"
 
-void run_angle_controller(CtrlStruct* struct, double angle_comm_gauche, angle_comm_droite){
+void run_angle_controller(CtrlStruct* struct, double err_angle_gauche, err_angle_droite){
     double kangle=1;
 	  double ki=0.066;
     double kp=0.017;//0.025
     double kPhi=0.0261;
     double K=0.9998;
     
-    double langle = struct->theCtrlIn->l_wheel_angle;
-    double rangle = struct->theCtrlIn->r_wheel_angle;
-    
-    double err_langle = langle-angle_comm_gauche;
-    double err_rangle = rangle-angle_comm_droite;
-    
-    double omega_ref_m_l = kangle*err_langle;
-    double omega_ref_m_r = kangle*err_rangle;
+    double omega_ref_m_l = kangle*err_angle_gauche;
+    double omega_ref_m_r = kangle*err_angle_droite;
 
     double lspeed = struct->theCtrlIn->l_wheel_speed;
     double rspeed = struct->theCtrlIn->r_wheel_speed;
@@ -33,6 +27,12 @@ void run_angle_controller(CtrlStruct* struct, double angle_comm_gauche, angle_co
 
     double integ_err_l = err_l*period + struct->theUserStruct->integ_err_l_prev;
     double integ_err_r = err_r*period + struct->theUserStruct->integ_err_r_prev;
+	
+	double rot_langle = lspeed*period*0.06/0.215;
+	double rot_rangle = rspeed*period*0.06/0.215;
+	
+	struct->theUserStruct->err_langle = struct->theUserStruct->err_langle - rot_langle;
+	struct->theUserStruct->err_rangle = struct->theUserStruct->err_rangle - rot-rangle;
 
     if (integ_err_l>0.95*24)
         {integ_err_l = 0.95*24;}
