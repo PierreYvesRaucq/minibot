@@ -1,8 +1,8 @@
 #ifndef _angle_controller_H_
 #define _angle_controller_H_
 
-#include "CtrlStruct.h"
+//#include "CtrlStruct.h"
 
-void setangle(CtrlStruct* struct, angle_comm_gauche, angle_comm_droite);
+void setangle(CtrlStruct* str, double err_angle_gauche, double err_angle_droite);
 
 #endif
